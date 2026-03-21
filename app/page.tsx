@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { Button } from "../components/ui/button"
+import { Button } from "../components/ui/button";
 import { getServerSession } from "@/lib/session";
 import { logout } from "@/actions/logout";
 import { allowedEmails } from "@/lib/allowed-users";
