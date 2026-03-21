@@ -1,10 +1,15 @@
 "use client";
 
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import SignInForm from "./components/sign-in-form";
-import SignUpForm from "./components/sign-up-form";
+import { authClient } from "@/lib/auth-client";
+import { Button } from '../../components/ui/button'
 
 export default function Authentication() {
+
+  const handleSignInWithGoogle = async () => {
+    await authClient.signIn.social({
+      provider: "google",
+    });
+  };
   return (
     <div className="min-h-screen w-full bg-[#0A0F1C] flex items-center justify-center p-6">
       <div className="max-w-md w-full">
@@ -18,33 +23,20 @@ export default function Authentication() {
           </p>
         </div>
 
-        {/* CARD PRINCIPAL */}
-        <div className="bg-[#05070e]/60 backdrop-blur-xl border border-white/10 shadow-2xl rounded-2xl p-6 flex flex-column">
-          <Tabs defaultValue="sign-in" className="w-full">
-            <TabsList className="grid grid-cols-2 w-full bg-white/5 border border-white/10 rounded-xl">
-              <TabsTrigger
-                value="sign-in"
-                className="data-[state=active]:bg-blue-600 data-[state=active]:text-white text-zinc-300 rounded-lg"
-              >
-                Entrar
-              </TabsTrigger>
-              <TabsTrigger
-                value="sign-up"
-                className="data-[state=active]:bg-blue-600 data-[state=active]:text-white text-zinc-300 rounded-lg"
-              >
-                Criar conta
-              </TabsTrigger>
-            </TabsList>
-
-            <TabsContent value="sign-in" className="mt-6">
-              <SignInForm />
-            </TabsContent>
-
-            <TabsContent value="sign-up" className="mt-6">
-              <SignUpForm />
-            </TabsContent>
-          </Tabs>
-        </div>
+        <Button
+              type="button"
+              variant="outline"
+              onClick={handleSignInWithGoogle}
+              className="w-full border-white/10 bg-white/5 text-white hover:bg-white/10 transition-colors rounded-lg flex gap-2"
+            >
+              <svg className="h-5 w-5" viewBox="0 0 24 24">
+                <path fill="#4285F4" d="M22.56 12.25c0-.78..." />
+                <path fill="#34A853" d="M12 23c2.97 0..." />
+                <path fill="#FBBC05" d="M5.84 14.09c-.22..." />
+                <path fill="#EA4335" d="M12 5.38c1.62..." />
+              </svg>
+              Entrar com Google
+            </Button>
       </div>
     </div>
   );
