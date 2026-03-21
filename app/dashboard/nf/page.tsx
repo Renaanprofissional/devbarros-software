@@ -3,9 +3,8 @@
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
-import { Loader2, FileSpreadsheet, FileUp, ArrowLeft } from "lucide-react";
+import { Loader2, FileSpreadsheet, FileUp } from "lucide-react";
 import { useRouter } from "next/navigation";
 
 export default function NFPage() {
@@ -55,9 +54,8 @@ export default function NFPage() {
   }
 
   return (
-    <div className="flex justify-center">
-
-      <Card className="w-[550px] bg-[#0D1117] border-white/10 shadow-2xl">
+    <div className="flex justify-center py-10">
+      <Card className="w-[750px] bg-[#0D1117] border-white/10 shadow-2xl rounded-lg">
         <CardHeader>
           <CardTitle className="text-xl font-bold flex items-center gap-2 text-white">
             <FileSpreadsheet className="h-5 w-5 text-blue-400" />
@@ -67,20 +65,32 @@ export default function NFPage() {
 
         <CardContent className="space-y-6">
 
+          {/* Input de arquivo estilizado */}
           <div className="space-y-2">
             <p className="text-sm text-gray-400">Selecione uma planilha XLSX:</p>
-            <Input
+            
+            <label
+              htmlFor="file-upload"
+              className="cursor-pointer flex items-center gap-2 px-4 py-3 bg-gradient-to-r from-blue-600 to-purple-600 text-white font-semibold rounded-lg hover:from-blue-700 hover:to-purple-700 transition"
+            >
+              <FileUp className="h-5 w-5" />
+              {file ? file.name : "Clique para selecionar o arquivo"}
+            </label>
+
+            <input
+              id="file-upload"
               type="file"
               accept=".xlsx,.csv"
               onChange={(e) => setFile(e.target.files?.[0] || null)}
-              className="text-gray-200"
+              className="hidden"
             />
           </div>
 
+          {/* Botão de envio */}
           <Button
             onClick={handleUpload}
             disabled={!file || loading}
-            className="w-full h-12 bg-blue-600 hover:bg-blue-700"
+            className="w-full h-12 bg-blue-600 hover:bg-blue-700 rounded-lg flex items-center justify-center gap-2"
           >
             {loading ? (
               <>
@@ -98,7 +108,6 @@ export default function NFPage() {
           {/* Resultado */}
           {result && (
             <div className="space-y-6">
-
               <div className="p-4 rounded-xl bg-black/30 border border-white/10">
                 <p>📤 Movidos: {result.moved.length}</p>
                 <p>⚠️ Já estavam fora da pasta: {result.skipped.length}</p>
