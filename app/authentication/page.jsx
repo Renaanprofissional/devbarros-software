@@ -19,7 +19,7 @@ export default function Authentication() {
         </div>
 
         {/* CARD PRINCIPAL */}
-        <div className="bg-[#05070e]/60 backdrop-blur-xl border border-white/10 shadow-2xl rounded-2xl p-6">
+        <div className="bg-[#05070e]/60 backdrop-blur-xl border border-white/10 shadow-2xl rounded-2xl p-6 flex flex-column">
           <Tabs defaultValue="sign-in" className="w-full">
             <TabsList className="grid grid-cols-2 w-full bg-white/5 border border-white/10 rounded-xl">
               <TabsTrigger
