@@ -20,5 +20,5 @@ export function middleware(req: NextRequest) {
 
 // Rotas que devem ser protegidas
 export const config = {
-  matcher: ['/dashboard', '/admin'], 
+  matcher: ['/dashboard', '/admin', '/perfil'], 
 };

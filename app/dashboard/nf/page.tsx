@@ -9,33 +9,34 @@ import { useRouter } from "next/navigation";
 import { useSession } from "@/lib/auth-client";
 
 export default function NFPage() {
-  const router = useRouter(); // <-- declare apenas uma vez
+  const router = useRouter();
   const { data: session, isPending } = useSession();
 
-  // Lista de emails permitidos, tirando espaços extras
-  const allowedEmails = process.env.NEXT_PUBLIC_ALLOWED_EMAILS
-    ?.split(",")
-    .map(e => e.trim()) || [];
-
-  // Redirecionamento seguro usando useEffect
-  useEffect(() => {
-    if (!isPending && (!session?.user || !allowedEmails.includes(session.user.email || ""))) {
-      router.push("/authentication"); // redireciona se não autorizado
-    }
-  }, [isPending, session, router, allowedEmails]);
-
-  // Mostrar loading enquanto a sessão carrega
-  if (isPending) return <p>Carregando...</p>;
-
-  // Caso não tenha sessão ou não seja permitido, mostra mensagem enquanto redireciona
-  if (!session?.user || !allowedEmails.includes(session.user.email || "")) {
-    return <p>Redirecionando...</p>;
-  }
-
+  // Hooks no topo, antes de qualquer condicional
   const [file, setFile] = useState<File | null>(null);
   const [loading, setLoading] = useState(false);
   const [result, setResult] = useState<{ moved: string[]; skipped: string[]; notFound: string[] } | null>(null);
   const [timeTaken, setTimeTaken] = useState<number | null>(null);
+
+  // Lista de emails permitidos
+  const allowedEmails = process.env.NEXT_PUBLIC_ALLOWED_EMAILS
+    ?.split(",")
+    .map(e => e.trim()) || [];
+
+  // Redirecionamento seguro
+  useEffect(() => {
+    if (!isPending && (!session?.user || !allowedEmails.includes(session.user.email || ""))) {
+      router.push("/authentication");
+    }
+  }, [isPending, session, router, allowedEmails]);
+
+  // Loading enquanto a sessão carrega
+  if (isPending) return <p>Carregando...</p>;
+
+  // Se não autorizado, mostra mensagem enquanto redireciona
+  if (!session?.user || !allowedEmails.includes(session.user.email || "")) {
+    return <p>Redirecionando...</p>;
+  }
 
   async function handleUpload() {
     if (!file) return;
@@ -86,11 +87,10 @@ export default function NFPage() {
         </CardHeader>
 
         <CardContent className="space-y-6">
-
           {/* Input de arquivo estilizado */}
           <div className="space-y-2">
             <p className="text-sm text-gray-400">Selecione uma planilha XLSX:</p>
-            
+
             <label
               htmlFor="file-upload"
               className="cursor-pointer flex items-center gap-2 px-4 py-3 bg-gradient-to-r from-blue-600 to-purple-600 text-white font-semibold rounded-lg hover:from-blue-700 hover:to-purple-700 transition"
