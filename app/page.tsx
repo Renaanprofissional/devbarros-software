@@ -53,7 +53,7 @@ export default async function Home() {
           {!user && (
             <div className="flex justify-center">
               <Link href="/authentication">
-                <Button className="flex items-center justify-center gap-2 bg-gradient-to-r from-indigo-500 to-purple-500 text-white px-6 py-3 rounded-xl shadow-md hover:scale-[1.03] active:scale-[0.97] transition-transform">
+                <Button className="cursor-pointer flex items-center justify-center gap-2 bg-gradient-to-r from-indigo-500 to-purple-500 text-white px-6 py-3 rounded-xl shadow-md hover:scale-[1.03] active:scale-[0.97] transition-transform">
                   <FiUnlock className="w-5 h-5" />
                   Acessar sistema
                 </Button>
@@ -76,7 +76,7 @@ export default async function Home() {
                 {/* ACCESS GRANTED */}
                 {hasAccess && (
                   <Link href="/dashboard">
-                    <Button className="flex items-center justify-center gap-2 bg-gradient-to-r from-indigo-500 to-purple-500 text-white px-6 py-3 rounded-xl shadow-md hover:scale-[1.03] active:scale-[0.97] transition-transform">
+                    <Button className="cursor-pointer flex items-center justify-center gap-2 bg-gradient-to-r from-indigo-500 to-purple-500 text-white px-6 py-3 rounded-xl shadow-md hover:scale-[1.03] active:scale-[0.97] transition-transform">
                       <FiArrowRight className="w-5 h-5" />
                       Entrar no painel
                     </Button>
@@ -85,7 +85,7 @@ export default async function Home() {
 
                 {/* NO ACCESS */}
                 {!hasAccess && (
-                  <div className="flex items-center gap-2 w-full justify-center text-sm bg-red-500/10 border border-red-500/20 text-red-400 px-4 py-3 rounded-lg">
+                  <div className="cursor-pointer flex items-center gap-2 w-full justify-center text-sm bg-red-500/10 border border-red-500/20 text-red-400 px-4 py-3 rounded-lg">
                     <FiLock className="w-4 h-4" />
                     Sem permissão para acessar o painel
                   </div>
@@ -95,7 +95,7 @@ export default async function Home() {
                 <form action={logout}>
                   <Button
                     type="submit"
-                    className="flex items-center justify-center gap-2 bg-white/10 hover:bg-white/20 px-6 py-3 rounded-xl text-sm text-white shadow-sm hover:shadow-md transition-all hover:scale-[1.03] active:scale-[0.97]"
+                    className="cursor-pointer flex items-center justify-center gap-2 bg-white/10 hover:bg-white/20 px-6 py-3 rounded-xl text-sm text-white shadow-sm hover:shadow-md transition-all hover:scale-[1.03] active:scale-[0.97]"
                   >
                     <FiLogOut className="w-5 h-5" />
                     Sair da conta
