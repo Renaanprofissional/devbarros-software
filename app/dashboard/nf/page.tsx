@@ -1,14 +1,36 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Loader2, FileSpreadsheet, FileUp } from "lucide-react";
 import { useRouter } from "next/navigation";
+import { useSession } from "@/lib/auth-client";
 
 export default function NFPage() {
-  const router = useRouter();
+  const router = useRouter(); // <-- declare apenas uma vez
+  const { data: session, isPending } = useSession();
+
+  // Lista de emails permitidos, tirando espaços extras
+  const allowedEmails = process.env.NEXT_PUBLIC_ALLOWED_EMAILS
+    ?.split(",")
+    .map(e => e.trim()) || [];
+
+  // Redirecionamento seguro usando useEffect
+  useEffect(() => {
+    if (!isPending && (!session?.user || !allowedEmails.includes(session.user.email || ""))) {
+      router.push("/authentication"); // redireciona se não autorizado
+    }
+  }, [isPending, session, router, allowedEmails]);
+
+  // Mostrar loading enquanto a sessão carrega
+  if (isPending) return <p>Carregando...</p>;
+
+  // Caso não tenha sessão ou não seja permitido, mostra mensagem enquanto redireciona
+  if (!session?.user || !allowedEmails.includes(session.user.email || "")) {
+    return <p>Redirecionando...</p>;
+  }
 
   const [file, setFile] = useState<File | null>(null);
   const [loading, setLoading] = useState(false);

@@ -1,8 +1,1 @@
-export const allowedEmails = [
-    "renaan.profissional@gmail.com",
-    "erickcardozodeoliveira@gmail.com",
-    "caue0546@gmail.com",
-    "santanafellipe61@gmail.com",
-    "teste@gmail.com"
-  ];
-  
+export const allowedEmails = process.env.ALLOWED_EMAILS?.split(",") || [];

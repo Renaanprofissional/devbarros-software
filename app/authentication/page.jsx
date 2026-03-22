@@ -2,6 +2,7 @@
 
 import { authClient } from "@/lib/auth-client";
 import { Button } from "../../components/ui/button";
+import Link from "next/link";
 
 export default function Authentication() {
   const handleSignInWithGoogle = async () => {
@@ -59,7 +60,8 @@ export default function Authentication() {
       </div>
 
       {/* LADO DIREITO */}
-      <div className="w-full md:w-1/2 flex items-center justify-center p-6 relative z-10">
+      <div className="w-full md:w-1/2 flex flex-col items-center justify-center p-6 relative z-10">
+
         <div className="w-full max-w-md">
           <div className="group bg-white/5 backdrop-blur-[40px] border border-white/10 rounded-3xl p-10 shadow-[0_40px_120px_-20px_rgba(0,0,0,0.9)] hover:shadow-[0_60px_160px_-20px_rgba(0,0,0,1)] transition-all duration-500">
 
@@ -77,7 +79,7 @@ export default function Authentication() {
             <Button
               type="button"
               onClick={handleSignInWithGoogle}
-              className="relative w-full bg-white text-black hover:bg-gradient-to-r hover:from-indigo-500 hover:to-purple-500 hover:text-white transition-all rounded-lg flex items-center justify-center gap-3 font-medium py-5 text-sm tracking-wide group-hover:scale-[1.02] active:scale-[0.98]"
+              className="relative w-full cursor-pointer bg-white text-black hover:bg-gradient-to-r hover:from-indigo-500 hover:to-purple-500 hover:text-white transition-all rounded-lg flex items-center justify-center gap-3 font-medium py-5 text-sm tracking-wide group-hover:scale-[1.02] active:scale-[0.98]"
             >
               <svg className="h-5 w-5" viewBox="0 0 24 24">
                 <path fill="#4285F4" d="M22.56 12.25c0-.78..." />
@@ -92,25 +94,25 @@ export default function Authentication() {
             <div className="flex justify-center gap-4 mt-6">
               {/* LinkedIn */}
               <a
-                href="https://www.linkedin.com/in/seu-perfil"
+                href="https://www.linkedin.com/in/renan-costa-barros"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="hover:text-indigo-500 transition-colors"
               >
                 <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
-                  <path d="M4.98 3.5C4.98 4.88 3.87 6 2.5 6S0 4.88 0 3.5 1.12 1 2.5 1 4.98 2.12 4.98 3.5zM0 8h5v16H0V8zm7.5 0h4.8v2.1h.07c.67-1.27 2.3-2.6 4.73-2.6 5.05 0 6 3.33 6 7.66V24h-5V15.3c0-2.06-.04-4.71-2.87-4.71-2.87 0-3.31 2.24-3.31 4.57V24h-5V8z"/>
+                  <path d="M4.98 3.5C4.98 4.88 3.87 6 2.5 6S0 4.88 0 3.5 1.12 1 2.5 1 4.98 2.12 4.98 3.5zM0 8h5v16H0V8zm7.5 0h4.8v2.1h.07c.67-1.27 2.3-2.6 4.73-2.6 5.05 0 6 3.33 6 7.66V24h-5V15.3c0-2.06-.04-4.71-2.87-4.71-2.87 0-3.31 2.24-3.31 4.57V24h-5V8z" />
                 </svg>
               </a>
 
               {/* Instagram */}
               <a
-                href="https://www.instagram.com/seu-usuario"
+                href="https://www.instagram.com/renan.devbarros"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="hover:text-pink-500 transition-colors"
               >
                 <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
-                  <path d="M12 2.163c3.204 0 3.584.012 4.85.07 1.17.056 1.97.24 2.43.403a4.92 4.92 0 011.675.973 4.92 4.92 0 01.973 1.675c.163.46.347 1.26.403 2.43.058 1.266.07 1.646.07 4.85s-.012 3.584-.07 4.85c-.056 1.17-.24 1.97-.403 2.43a4.918 4.918 0 01-.973 1.675 4.918 4.918 0 01-1.675.973c-.46.163-1.26.347-2.43.403-1.266.058-1.646.07-4.85.07s-3.584-.012-4.85-.07c-1.17-.056-1.97-.24-2.43-.403a4.92 4.92 0 01-1.675-.973 4.92 4.92 0 01-.973-1.675c-.163-.46-.347-1.26-.403-2.43-.058-1.266-.07-1.646-.07-4.85s.012-3.584.07-4.85c.056-1.17.24-1.97.403-2.43a4.92 4.92 0 01.973-1.675 4.92 4.92 0 011.675-.973c.46-.163 1.26-.347 2.43-.403 1.266-.058 1.646-.07 4.85-.07M12 0C8.741 0 8.332.012 7.052.07 5.78.127 4.835.308 4.042.63a6.918 6.918 0 00-2.51 1.645A6.918 6.918 0 00.63 4.042c-.322.793-.503 1.738-.56 3.01C.012 8.332 0 8.741 0 12c0 3.259.012 3.668.07 4.948.057 1.272.238 2.217.56 3.01a6.918 6.918 0 001.645 2.51 6.918 6.918 0 002.51 1.645c.793.322 1.738.503 3.01.56 1.28.058 1.689.07 4.948.07s3.668-.012 4.948-.07c1.272-.057 2.217-.238 3.01-.56a6.918 6.918 0 002.51-1.645 6.918 6.918 0 001.645-2.51c.322-.793.503-1.738.56-3.01.058-1.28.07-1.689.07-4.948s-.012-3.668-.07-4.948c-.057-1.272-.238-2.217-.56-3.01a6.918 6.918 0 00-1.645-2.51A6.918 6.918 0 0019.958.63c-.793-.322-1.738-.503-3.01-.56C15.668.012 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zm0 10.162a3.999 3.999 0 110-7.998 3.999 3.999 0 010 7.998zm6.406-11.845a1.44 1.44 0 11-2.879 0 1.44 1.44 0 012.879 0z"/>
+                  <path d="M12 2.163c3.204 0 3.584.012 4.85.07 1.17.056 1.97.24 2.43.403a4.92 4.92 0 011.675.973 4.92 4.92 0 01.973 1.675c.163.46.347 1.26.403 2.43.058 1.266.07 1.646.07 4.85s-.012 3.584-.07 4.85c-.056 1.17-.24 1.97-.403 2.43a4.918 4.918 0 01-.973 1.675 4.918 4.918 0 01-1.675.973c-.46.163-1.26.347-2.43.403-1.266.058-1.646.07-4.85.07s-3.584-.012-4.85-.07c-1.17-.056-1.97-.24-2.43-.403a4.92 4.92 0 01-1.675-.973 4.92 4.92 0 01-.973-1.675c-.163-.46-.347-1.26-.403-2.43-.058-1.266-.07-1.646-.07-4.85s.012-3.584.07-4.85c.056-1.17.24-1.97.403-2.43a4.92 4.92 0 01.973-1.675 4.92 4.92 0 011.675-.973c.46-.163 1.26-.347 2.43-.403 1.266-.058 1.646-.07 4.85-.07M12 0C8.741 0 8.332.012 7.052.07 5.78.127 4.835.308 4.042.63a6.918 6.918 0 00-2.51 1.645A6.918 6.918 0 00.63 4.042c-.322.793-.503 1.738-.56 3.01C.012 8.332 0 8.741 0 12c0 3.259.012 3.668.07 4.948.057 1.272.238 2.217.56 3.01a6.918 6.918 0 001.645 2.51 6.918 6.918 0 002.51 1.645c.793.322 1.738.503 3.01.56 1.28.058 1.689.07 4.948.07s3.668-.012 4.948-.07c1.272-.057 2.217-.238 3.01-.56a6.918 6.918 0 002.51-1.645 6.918 6.918 0 001.645-2.51c.322-.793.503-1.738.56-3.01.058-1.28.07-1.689.07-4.948s-.012-3.668-.07-4.948c-.057-1.272-.238-2.217-.56-3.01a6.918 6.918 0 00-1.645-2.51A6.918 6.918 0 0019.958.63c-.793-.322-1.738-.503-3.01-.56C15.668.012 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zm0 10.162a3.999 3.999 0 110-7.998 3.999 3.999 0 010 7.998zm6.406-11.845a1.44 1.44 0 11-2.879 0 1.44 1.44 0 012.879 0z" />
                 </svg>
               </a>
             </div>
@@ -133,6 +135,38 @@ export default function Authentication() {
 
           </div>
         </div>
+
+        {/* Botão Voltar Moderno - Parte Inferior */}
+        <div className="mt-10 w-full max-w-md flex justify-start">
+          <Link href="/">
+            <Button
+              type="button"
+              className="
+        w-12 h-12
+        rounded-full
+        bg-purple-900
+        hover:scale-105
+        hover:shadow-xl
+        transition-transform duration-300
+        flex items-center justify-center
+        cursor-pointer
+      "
+            >
+              {/* Ícone de seta */}
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                className="h-6 w-6 text-white"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+                strokeWidth={2}
+              >
+                <path strokeLinecap="round" strokeLinejoin="round" d="M15 19l-7-7 7-7" />
+              </svg>
+            </Button>
+          </Link>
+        </div>
+
       </div>
     </div>
   );

@@ -4,26 +4,35 @@ import Link from "next/link";
 import { useSession } from "@/lib/auth-client";
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";
-import { allowedEmails } from "../../lib/allowed-users";
 
 export default function DashboardPage() {
   const router = useRouter();
   const { data: session, isPending } = useSession();
 
+  // Lista de emails permitidos, tirando espaços extras
+  const allowedEmails = process.env.NEXT_PUBLIC_ALLOWED_EMAILS
+    ?.split(",")
+    .map(e => e.trim()) || [];
+
+  // Redirecionamento seguro usando useEffect
   useEffect(() => {
-    if (!isPending) {
-      if (!session?.user?.email || !allowedEmails.includes(session.user.email)) {
-        router.push("/authentication");
-      }
+    if (!isPending && (!session?.user || !allowedEmails.includes(session.user.email || ""))) {
+      router.push("/authentication"); // redireciona se não autorizado
     }
-  }, [session, isPending, router]);
+  }, [isPending, session, router, allowedEmails]);
 
+  // Mostrar loading enquanto a sessão carrega
   if (isPending) return <p>Carregando...</p>;
-  if (!session?.user) return <p>Redirecionando...</p>;
 
+  // Caso não tenha sessão ou não seja permitido, mostra mensagem enquanto redireciona
+  if (!session?.user || !allowedEmails.includes(session.user.email || "")) {
+    return <p>Redirecionando...</p>;
+  }
+
+  // Sistemas disponíveis no dashboard
   const systems = [
     { title: "Gerenciador de XML", desc: "Conversão e processamento de arquivos NF-e", href: "/dashboard/xml" },
-    { title: "Gerenciador de Notas Fiscais", desc: "Mover nfs para próxima fatura", href: "/dashboard/nf" },
+    { title: "Gerenciador de Notas Fiscais", desc: "Mover NFs para próxima fatura", href: "/dashboard/nf" },
   ];
 
   return (

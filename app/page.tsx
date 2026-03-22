@@ -2,21 +2,20 @@ import Link from "next/link";
 import { Button } from "../components/ui/button";
 import { getServerSession } from "@/lib/session";
 import { logout } from "@/actions/logout";
-import { allowedEmails } from "@/lib/allowed-users";
+import { FiLogOut, FiArrowRight, FiUnlock, FiLock } from "react-icons/fi";
 
 export default async function Home() {
   const session = await getServerSession();
   const user = session?.user ?? null;
 
+  const allowedEmails = process.env.NEXT_PUBLIC_ALLOWED_EMAILS?.split(",") || [];
   const hasAccess = user && allowedEmails.includes(user.email ?? "");
 
   return (
-    <div className="relative min-h-screen flex items-center justify-center overflow-hidden bg-[#03050D] text-white">
+    <div className="relative min-h-screen flex items-center justify-center overflow-hidden bg-[#03050D] text-white font-sans">
 
-      {/* ===============================
-          BACKGROUND VIDEO + FX
-      ================================= */}
-      <div className="absolute inset-0 ">
+      {/* BACKGROUND VIDEO + EFFECTS */}
+      <div className="absolute inset-0">
         <video
           autoPlay
           loop
@@ -27,57 +26,44 @@ export default async function Home() {
           <source src="/videos/bg.mp4" type="video/mp4" />
         </video>
 
-        {/* Gradiente profundo */}
         <div className="absolute inset-0 bg-gradient-to-br from-[#03050D]/95 via-[#03050D]/80 to-black" />
-
-        {/* Glow */}
-        <div className="absolute w-[600px] h-[600px] bg-blue-600/20 blur-[140px] top-[-150px] left-[-150px]" />
-        <div className="absolute w-[500px] h-[500px] bg-purple-600/20 blur-[140px] bottom-[-120px] right-[-120px]" />
-
-        {/* Noise */}
-        <div className="absolute inset-0 opacity-[0.03] bg-[url('https://grainy-gradients.vercel.app/noise.svg')]" />
+        <div className="absolute w-[600px] h-[600px] bg-blue-600/15 blur-[140px] -top-36 -left-36" />
+        <div className="absolute w-[500px] h-[500px] bg-purple-600/15 blur-[140px] -bottom-32 -right-32" />
+        <div className="absolute inset-0 opacity-[0.02] bg-[url('https://grainy-gradients.vercel.app/noise.svg')]" />
       </div>
 
-      {/* ===============================
-          CARD CENTRAL
-      ================================= */}
-      <div className="relative z-10 w-full max-w-xl px-6">
-
-        <div className="bg-white/[0.04] backdrop-blur-3xl border border-white/10 rounded-2xl p-10 shadow-[0_50px_120px_-20px_rgba(0,0,0,0.9)] transition-all duration-500 hover:border-white/20">
+      {/* CENTRAL CARD */}
+      <div className="relative z-10 w-full max-w-md px-6">
+        <div className="bg-white/5 backdrop-blur-3xl border border-white/10 rounded-2xl p-10 shadow-lg shadow-black/30 transition-all hover:border-white/20">
 
           {/* HEADER */}
-          <div className="text-center mb-10">
-            <h1 className="text-4xl font-semibold tracking-tight">
+          <div className="text-center mb-8">
+            <h1 className="text-3xl font-semibold tracking-tight">
               DevBarros{" "}
               <span className="bg-gradient-to-r from-blue-400 to-purple-500 text-transparent bg-clip-text">
                 System
               </span>
             </h1>
-
-            <p className="text-zinc-400 text-sm mt-3">
-              Plataforma segura para gerenciamento e acesso ao painel
+            <p className="text-zinc-400 text-sm mt-2">
+              Plataforma segura para gerenciamento do painel
             </p>
           </div>
 
-          {/* =============================
-              NÃO LOGADO
-          ============================== */}
+          {/* NOT LOGGED */}
           {!user && (
             <div className="flex justify-center">
               <Link href="/authentication">
-                <Button className="bg-blue-600 hover:bg-blue-700 px-8 py-5 text-sm rounded-lg transition-all hover:scale-[1.03] active:scale-[0.97]">
+                <Button className="flex items-center justify-center gap-2 bg-gradient-to-r from-indigo-500 to-purple-500 text-white px-6 py-3 rounded-xl shadow-md hover:scale-[1.03] active:scale-[0.97] transition-transform">
+                  <FiUnlock className="w-5 h-5" />
                   Acessar sistema
                 </Button>
               </Link>
             </div>
           )}
 
-          {/* =============================
-              LOGADO
-          ============================== */}
+          {/* LOGGED */}
           {user && (
             <div className="text-center">
-
               <p className="text-lg mb-6 text-zinc-300">
                 Bem-vindo,{" "}
                 <span className="font-semibold text-blue-400">
@@ -87,23 +73,21 @@ export default async function Home() {
 
               <div className="flex flex-col items-center gap-4">
 
-                {/* =============================
-                    ACESSO LIBERADO
-                ============================== */}
+                {/* ACCESS GRANTED */}
                 {hasAccess && (
                   <Link href="/dashboard">
-                    <Button className="bg-blue-600 hover:bg-blue-700 px-8 py-5 rounded-lg transition-all hover:scale-[1.03] active:scale-[0.97]">
+                    <Button className="flex items-center justify-center gap-2 bg-gradient-to-r from-indigo-500 to-purple-500 text-white px-6 py-3 rounded-xl shadow-md hover:scale-[1.03] active:scale-[0.97] transition-transform">
+                      <FiArrowRight className="w-5 h-5" />
                       Entrar no painel
                     </Button>
                   </Link>
                 )}
 
-                {/* =============================
-                    SEM ACESSO
-                ============================== */}
+                {/* NO ACCESS */}
                 {!hasAccess && (
-                  <div className="w-full text-center text-sm bg-red-500/10 border border-red-500/20 text-red-400 px-4 py-3 rounded-lg">
-                    Seu usuário não possui permissão para acessar o painel.
+                  <div className="flex items-center gap-2 w-full justify-center text-sm bg-red-500/10 border border-red-500/20 text-red-400 px-4 py-3 rounded-lg">
+                    <FiLock className="w-4 h-4" />
+                    Sem permissão para acessar o painel
                   </div>
                 )}
 
@@ -111,8 +95,9 @@ export default async function Home() {
                 <form action={logout}>
                   <Button
                     type="submit"
-                    className="bg-white/10 hover:bg-white/20 px-6 py-3 text-sm rounded-lg transition-all"
+                    className="flex items-center justify-center gap-2 bg-white/10 hover:bg-white/20 px-6 py-3 rounded-xl text-sm text-white shadow-sm hover:shadow-md transition-all hover:scale-[1.03] active:scale-[0.97]"
                   >
+                    <FiLogOut className="w-5 h-5" />
                     Sair da conta
                   </Button>
                 </form>
@@ -122,7 +107,7 @@ export default async function Home() {
           )}
 
           {/* FOOTER */}
-          <div className="mt-10 text-center text-xs text-zinc-600">
+          <div className="mt-10 text-center text-xs text-zinc-500 tracking-wide">
             Sistema restrito • Acesso monitorado
           </div>
 
