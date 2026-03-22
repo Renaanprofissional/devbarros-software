@@ -1,4 +1,5 @@
 import { getServerSession } from "@/lib/session";
+import SheetButton from "./buttonSheet";
 
 export default async function Header() {
   const session = await getServerSession();
@@ -12,26 +13,6 @@ export default async function Header() {
         <div className="absolute w-[250px] h-[250px] bg-blue-500/10 blur-[100px] left-[-80px] top-[-80px]" />
       </div>
 
-      {/* ESQUERDA */}
-      <div className="flex flex-col relative z-10">
-        <h2 className="text-lg font-semibold tracking-tight text-white">
-          Painel Administrativo
-        </h2>
-
-        <div className="flex items-center gap-2 mt-1">
-          <span className="text-xs text-zinc-500">
-            Ambiente seguro
-          </span>
-
-          <span className="w-1 h-1 bg-zinc-600 rounded-full" />
-
-          <span className="text-xs text-green-400">
-            Sistema ativo
-          </span>
-        </div>
-      </div>
-
-      {/* DIREITA */}
       <div className="flex items-center gap-4 relative z-10">
 
         {/* USER CARD */}
@@ -76,6 +57,8 @@ export default async function Header() {
         </div>
 
       </div>
+
+      <div><SheetButton /></div>
     </header>
   );
 }

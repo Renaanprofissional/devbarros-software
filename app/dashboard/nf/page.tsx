@@ -130,7 +130,7 @@ export default function NFPage() {
           {/* Resultado */}
           {result && (
             <div className="space-y-6">
-              <div className="p-4 rounded-xl bg-black/30 border border-white/10">
+              <div className="p-4 rounded-xl bg-black/30 border border-white/10 text-white">
                 <p>📤 Movidos: {result.moved.length}</p>
                 <p>⚠️ Já estavam fora da pasta: {result.skipped.length}</p>
                 <p>❌ Não encontrados: {result.notFound.length}</p>

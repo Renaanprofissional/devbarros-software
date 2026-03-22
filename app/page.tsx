@@ -108,7 +108,7 @@ export default async function Home() {
 
           {/* FOOTER */}
           <div className="mt-10 text-center text-xs text-zinc-500 tracking-wide">
-            Sistema restrito • Acesso monitorado
+          • Sistema restrito • 
           </div>
 
         </div>

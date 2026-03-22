@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Home, Layers, Settings, LogOut } from "lucide-react";
+import { Home, Layers, LogOut } from "lucide-react";
 import { logout } from "@/actions/logout";
 
 export default function Sidebar() {
@@ -16,7 +16,7 @@ export default function Sidebar() {
   ];
 
   return (
-    <aside className="w-[260px] h-screen flex flex-col px-6 py-8 bg-white/[0.02] backdrop-blur-2xl border-r border-white/10">
+    <aside className="min-w-[260px] h-screen flex flex-col px-6 py-8 bg-white/[0.02] backdrop-blur-2xl border-r border-white/10">
 
       {/* LOGO */}
       <div className="mb-10">

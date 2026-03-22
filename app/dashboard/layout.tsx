@@ -17,7 +17,7 @@ export default function DashboardLayout({
       </div>
 
       {/* SIDEBAR */}
-      <aside className="relative h-full w-[260px] border-r border-white/10 bg-white/[0.02] backdrop-blur-2xl">
+      <aside className="relative h-full w-[260px] border-r border-white/10 bg-white/[0.02] backdrop-blur-2xl hidden md:flex">
         <div className="h-full flex flex-col">
           <Sidebar />
         </div>
