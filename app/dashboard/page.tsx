@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { useSession } from "@/lib/auth-client";
+import { useSession } from "../../lib/auth-client";
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";
 
@@ -33,6 +33,7 @@ export default function DashboardPage() {
   const systems = [
     { title: "Gerenciador de XML", desc: "Conversão e processamento de arquivos NF-e", href: "/dashboard/xml" },
     { title: "Gerenciador de Notas Fiscais", desc: "Mover NFs para próxima fatura", href: "/dashboard/nf" },
+    { title: "Consulta de CNPJ", desc: "Busque dados completos de empresas", href: "/dashboard/cnpj" },
   ];
 
   return (

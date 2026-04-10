@@ -1,0 +1,1 @@
+ALTER TABLE "cnpj" ADD COLUMN "data_inicio_atividade" text;

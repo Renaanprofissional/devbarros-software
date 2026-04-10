@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Home, Layers, LogOut } from "lucide-react";
-import { logout } from "@/actions/logout";
+import { logout } from "../../actions/logout";
 
 export default function Sidebar() {
   const pathname = usePathname();
@@ -16,13 +16,13 @@ export default function Sidebar() {
   ];
 
   return (
-    <aside className="min-w-[260px] h-screen flex flex-col px-6 py-8 bg-white/[0.02] backdrop-blur-2xl border-r border-white/10">
+    <aside className="min-w-[260px] h-screen flex flex-col px-6 py-8 backdrop-blur-2xl border-r border-white/10">
 
       {/* LOGO */}
       <div className="mb-10">
         <h1 className="text-xl font-semibold tracking-tight text-white">
           DevBarros{" "}
-          <span className="bg-gradient-to-r from-blue-400 to-purple-500 text-transparent bg-clip-text">
+          <span className="bg-linear-to-r from-blue-400 to-purple-500 text-transparent bg-clip-text">
             System
           </span>
         </h1>
@@ -46,13 +46,13 @@ export default function Sidebar() {
               className={`group relative flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm transition-all duration-300
               
               ${isActive
-                  ? "bg-white/[0.06] text-white"
-                  : "text-zinc-400 hover:text-white hover:bg-white/[0.04]"
+                  ? "text-white"
+                  : "text-zinc-400 hover:text-white"
                 }`}
             >
               {/* glow ativo */}
               {isActive && (
-                <div className="absolute inset-0 rounded-lg bg-gradient-to-r from-blue-500/10 to-purple-500/10" />
+                <div className="absolute inset-0 rounded-lg bg-linear-to-r from-blue-500/10 to-purple-500/10" />
               )}
 
               {/* ICON */}
@@ -67,7 +67,7 @@ export default function Sidebar() {
 
               {/* ACTIVE BAR */}
               {isActive && (
-                <div className="absolute left-0 top-1/2 -translate-y-1/2 h-5 w-[3px] bg-gradient-to-b from-blue-500 to-purple-500 rounded-r-full" />
+                <div className="absolute left-0 top-1/2 -translate-y-1/2 h-5 w-[3px] bg-linear-to-b from-blue-500 to-purple-500 rounded-r-full" />
               )}
             </Link>
           );

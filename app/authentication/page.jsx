@@ -1,6 +1,6 @@
 "use client";
 
-import { authClient } from "@/lib/auth-client";
+import { authClient } from "../../lib/auth-client";
 import { Button } from "../../components/ui/button";
 import Link from "next/link";
 
@@ -21,7 +21,7 @@ export default function Authentication() {
       </div>
 
       {/* NOISE TEXTURE */}
-      <div className="absolute inset-0 opacity-[0.03] bg-[url('https://grainy-gradients.vercel.app/noise.svg')]" />
+      <div className="absolute inset-0 opacity-[0.03] bg-[url('https://grainy-linears.vercel.app/noise.svg')]" />
 
       {/* LADO ESQUERDO */}
       <div className="hidden md:flex w-1/2 relative overflow-hidden">
@@ -30,7 +30,7 @@ export default function Authentication() {
           alt="tech background"
           className="absolute inset-0 w-full h-full object-cover scale-110 opacity-40"
         />
-        <div className="absolute inset-0 bg-gradient-to-br from-[#05070F]/95 via-[#05070F]/80 to-transparent" />
+        <div className="absolute inset-0 bg-linear-to-br from-[#05070F]/95 via-[#05070F]/80 to-transparent" />
 
         <div className="relative z-10 flex flex-col justify-between p-14">
           <h1 className="text-sm tracking-[0.4em] uppercase text-zinc-400">
@@ -40,7 +40,7 @@ export default function Authentication() {
           <div>
             <h2 className="text-6xl font-bold leading-[1.05] tracking-tight">
               Gestão
-              <span className="block bg-gradient-to-r from-indigo-400 to-purple-500 text-transparent bg-clip-text">
+              <span className="block bg-linear-to-r from-indigo-400 to-purple-500 text-transparent bg-clip-text">
                 financeira
               </span>
               com eficiência
@@ -63,7 +63,7 @@ export default function Authentication() {
       <div className="w-full md:w-1/2 flex flex-col items-center justify-center p-6 relative z-10">
 
         <div className="w-full max-w-md">
-          <div className="group bg-white/5 backdrop-blur-[40px] border border-white/10 rounded-3xl p-10 shadow-[0_40px_120px_-20px_rgba(0,0,0,0.9)] hover:shadow-[0_60px_160px_-20px_rgba(0,0,0,1)] transition-all duration-500">
+          <div className="group bg-white/5 border border-white/10 rounded-3xl p-10 shadow-[0_40px_120px_-20px_rgba(0,0,0,0.9)] hover:shadow-[0_60px_160px_-20px_rgba(0,0,0,1)] transition-all duration-500">
 
             {/* Header */}
             <div className="mb-10">
@@ -79,7 +79,7 @@ export default function Authentication() {
             <Button
               type="button"
               onClick={handleSignInWithGoogle}
-              className="relative w-full cursor-pointer bg-white text-black hover:bg-gradient-to-r hover:from-indigo-500 hover:to-purple-500 hover:text-white transition-all rounded-lg flex items-center justify-center gap-3 font-medium py-5 text-sm tracking-wide group-hover:scale-[1.02] active:scale-[0.98]"
+              className="relative w-full cursor-pointer bg-white text-black hover:bg-linear-to-r hover:from-indigo-500 hover:to-purple-500 hover:text-white transition-all rounded-lg flex items-center justify-center gap-3 font-medium py-5 text-sm tracking-wide group-hover:scale-[1.02] active:scale-[0.98]"
             >
               <svg className="h-5 w-5" viewBox="0 0 24 24">
                 <path fill="#4285F4" d="M22.56 12.25c0-.78..." />

@@ -1,9 +1,9 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { useSession } from "@/lib/auth-client";
+import { useSession } from "../../lib/auth-client";
 import Link from "next/link";
-import { logout } from "@/actions/logout";
+import { logout } from "../../actions/logout";
 import { LogOut } from "lucide-react";
 import { TfiViewListAlt } from "react-icons/tfi";
 
@@ -45,7 +45,7 @@ export default function Perfil() {
 
       {/* PROFILE CARD */}
       <div className="relative z-10 flex flex-col items-center justify-center w-full max-w-md p-10">
-        <div className="group bg-gray-900/90 backdrop-blur-[40px] border border-gray-800 rounded-3xl p-10 shadow-lg hover:shadow-xl transition-all duration-500">
+        <div className="group bg-gray-900/90 border border-gray-800 rounded-3xl p-10 shadow-lg hover:shadow-xl transition-all duration-500">
 
           {/* Avatar */}
           <div className="relative flex justify-center mb-6">

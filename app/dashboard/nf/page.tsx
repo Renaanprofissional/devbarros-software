@@ -1,12 +1,12 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { Button } from "@/components/ui/button";
-import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
+import { Button } from "../../../components/ui/button";
+import { Card, CardHeader, CardTitle, CardContent } from "../../../components/ui/card";
+import { Badge } from "../../../components/ui/badge";
 import { Loader2, FileSpreadsheet, FileUp } from "lucide-react";
 import { useRouter } from "next/navigation";
-import { useSession } from "@/lib/auth-client";
+import { useSession } from "../../../lib/auth-client";
 
 export default function NFPage() {
   const router = useRouter();
@@ -93,7 +93,7 @@ export default function NFPage() {
 
             <label
               htmlFor="file-upload"
-              className="cursor-pointer flex items-center gap-2 px-4 py-3 bg-gradient-to-r from-blue-600 to-purple-600 text-white font-semibold rounded-lg hover:from-blue-700 hover:to-purple-700 transition"
+              className="cursor-pointer flex items-center gap-2 px-4 py-3 bg-linear-to-r from-blue-600 to-purple-600 text-white font-semibold rounded-lg hover:from-blue-700 hover:to-purple-700 transition"
             >
               <FileUp className="h-5 w-5" />
               {file ? file.name : "Clique para selecionar o arquivo"}

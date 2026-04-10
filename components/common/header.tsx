@@ -1,4 +1,4 @@
-import { getServerSession } from "@/lib/session";
+import { getServerSession } from "../../lib/session";
 import SheetButton from "./buttonSheet";
 
 export default async function Header() {
@@ -6,7 +6,7 @@ export default async function Header() {
   const user = session?.user;
 
   return (
-    <header className="relative w-full h-20 flex items-center justify-between px-8 border-b border-white/10 bg-white/[0.02] backdrop-blur-2xl">
+    <header className="relative w-full h-20 flex items-center justify-between px-8 border-b border-white/10 backdrop-blur-2xl">
 
       {/* BACKGROUND LIGHT */}
       <div className="absolute inset-0 pointer-events-none">
@@ -16,7 +16,7 @@ export default async function Header() {
       <div className="flex items-center gap-4 relative z-10">
 
         {/* USER CARD */}
-        <div className="group flex items-center gap-3 px-3 py-2 rounded-xl bg-white/[0.03] border border-white/10 hover:border-white/20 hover:bg-white/[0.05] transition-all duration-300">
+        <div className="group flex items-center gap-3 px-3 py-2 rounded-xl border border-white/10 hover:border-white/20  transition-all duration-300">
 
           {/* AVATAR */}
           <div className="relative">
@@ -27,7 +27,7 @@ export default async function Header() {
                 className="w-10 h-10 rounded-full object-cover ring-2 ring-white/10 group-hover:ring-white/20 transition"
               />
             ) : (
-              <div className="w-10 h-10 rounded-full bg-gradient-to-br from-blue-500 to-purple-500 flex items-center justify-center text-sm font-semibold">
+              <div className="w-10 h-10 rounded-full bg-linear-to-br from-blue-500 to-purple-500 flex items-center justify-center text-sm font-semibold">
                 {user?.name?.[0]}
               </div>
             )}
