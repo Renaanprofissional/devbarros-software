@@ -163,7 +163,7 @@ export default function CNPJPage() {
         {/* LINK + COPY */}
         <div className="flex items-center gap-2">
           <input
-            value={`https://seusite.com/consulta?cnpj=${cnpj}`}
+            value={`https://www.cadesp.fazenda.sp.gov.br/(S(s2i2trxo1aivfw3hdojxrzkd))/Pages/Cadastro/Consultas/ConsultaPublica/ConsultaPublica.aspx`}
             readOnly
             className="flex-1 p-3 rounded-lg bg-black/40 border border-white/10 text-gray-300"
           />
