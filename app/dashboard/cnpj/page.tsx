@@ -3,6 +3,9 @@
 import { useState } from "react";
 import { Button } from "../../../components/ui/button";
 import { ExternalLink, Loader2, Search } from "lucide-react";
+import Link from "next/link";
+import { SiCyberdefenders } from "react-icons/si";
+import { GiClick } from "react-icons/gi";
 
 export default function CNPJPage() {
   const [cnpj, setCnpj] = useState("");
@@ -156,8 +159,24 @@ export default function CNPJPage() {
         </div>
 
         {/* INSTRUÇÃO */}
-        <div className="p-4 bg-yellow-500/10 border border-yellow-500/20 rounded-lg mb-4 text-sm text-yellow-300">
-          ⚠️ Para funcionar corretamente, abra o link em uma aba anônima.
+        <div className="flex gap-2 p-4 bg-purple-500/10 border border-purple-500/20 rounded-lg mb-4 text-sm text-purple-300">
+        <GiClick />  Opção 1 : Clique no botão abaixo e vai para o site oficial
+        </div>
+
+        <div className="mb-4">
+          <Link
+            href="https://www.cadesp.fazenda.sp.gov.br/(S(s2i2trxo1aivfw3hdojxrzkd))/Pages/Cadastro/Consultas/ConsultaPublica/ConsultaPublica.aspx"
+            target="_blank"
+            className="flex justify-center items-center gap-3 p-3 rounded-lg bg-gray-800 hover:bg-indigo-500/20 transition group"
+          >
+            
+            <span className="text-white font-medium">Clique aqui!</span>
+          </Link>
+        </div>
+
+        {/* INSTRUÇÃO */}
+        <div className="flex gap-2 p-4 bg-purple-500/10 border border-purple-500/20 rounded-lg mb-4 text-sm text-purple-300">
+        <SiCyberdefenders className="w-5 h-5 text-gray-400 group-hover:scale-110 transition" /> Opção 2 : Se a opção 1 não funcionar, abra o link em uma aba anônima. 
         </div>
 
         {/* LINK + COPY */}
@@ -171,7 +190,7 @@ export default function CNPJPage() {
           <button
             onClick={() => {
               navigator.clipboard.writeText(
-                `https://seusite.com/consulta?cnpj=${cnpj}`,
+                `https://www.cadesp.fazenda.sp.gov.br/(S(s2i2trxo1aivfw3hdojxrzkd))/Pages/Cadastro/Consultas/ConsultaPublica/ConsultaPublica.aspx`,
               );
             }}
             className="px-4 py-3 rounded-lg bg-white text-black font-medium hover:bg-gray-200 transition"
