@@ -12,6 +12,7 @@ export default function Sidebar() {
     { href: "/dashboard", label: "Início", icon: Home },
     { href: "/dashboard/xml", label: "XML", icon: Layers },
     { href: "/dashboard/nf", label: "Notas Fiscais", icon: Layers },
+    { href: "/dashboard/cnpj", label: "Consultar CNPJ", icon: Layers },
     // { href: "/dashboard/settings", label: "Configurações", icon: Settings },
   ];
 
