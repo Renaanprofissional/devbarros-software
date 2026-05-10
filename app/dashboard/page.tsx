@@ -9,30 +9,25 @@ export default function DashboardPage() {
   const router = useRouter();
   const { data: session, isPending } = useSession();
 
-  // Lista de emails permitidos, tirando espaços extras
   const allowedEmails =
     process.env.NEXT_PUBLIC_ALLOWED_EMAILS?.split(",").map((e) => e.trim()) ||
     [];
 
-  // Redirecionamento seguro usando useEffect
   useEffect(() => {
     if (
       !isPending &&
       (!session?.user || !allowedEmails.includes(session.user.email || ""))
     ) {
-      router.push("/authentication"); // redireciona se não autorizado
+      router.push("/authentication");
     }
   }, [isPending, session, router, allowedEmails]);
 
-  // Mostrar loading enquanto a sessão carrega
   if (isPending) return <p>Carregando...</p>;
 
-  // Caso não tenha sessão ou não seja permitido, mostra mensagem enquanto redireciona
   if (!session?.user || !allowedEmails.includes(session.user.email || "")) {
     return <p>Redirecionando...</p>;
   }
 
-  // Sistemas disponíveis no dashboard
   const systems = [
     {
       title: "Gerenciador de XML",
@@ -53,6 +48,11 @@ export default function DashboardPage() {
       title: "Cotações",
       desc: "Moedas e cripto em tempo real",
       href: "/dashboard/cotacoes",
+    },
+    {
+      title: "Gerador de Código de Barras",
+      desc: "Crie e imprima códigos de barras personalizados",
+      href: "/dashboard/barcode",
     },
   ];
 
