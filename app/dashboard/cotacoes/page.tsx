@@ -1,16 +1,22 @@
 "use client";
 
 import { useEffect, useMemo, useState } from "react";
+
 import {
-  Line,
+  ResponsiveContainer,
+  AreaChart,
+  Area,
   XAxis,
   YAxis,
   Tooltip,
-  ResponsiveContainer,
-  Area,
-  AreaChart,
   CartesianGrid,
 } from "recharts";
+
+import {
+  TrendingUp,
+  TrendingDown,
+  Activity,
+} from "lucide-react";
 
 type HistoryItem = {
   time: string;
@@ -27,9 +33,13 @@ type CurrencyData = {
 };
 
 export default function CotacoesPage() {
-  const [data, setData] = useState<Record<string, CurrencyData> | null>(null);
+  const [data, setData] = useState<Record<
+    string,
+    CurrencyData
+  > | null>(null);
 
-  const [history, setHistory] = useState<CoinHistory>({});
+  const [history, setHistory] =
+    useState<CoinHistory>({});
 
   const moedas = useMemo(
     () => [
@@ -69,7 +79,9 @@ export default function CotacoesPage() {
 
   async function fetchCotacoes() {
     try {
-      const pairs = moedas.map((m) => m.key).join(",");
+      const pairs = moedas
+        .map((m) => m.key)
+        .join(",");
 
       // PREÇOS ATUAIS
       const currentRes = await fetch(
@@ -80,19 +92,18 @@ export default function CotacoesPage() {
 
       setData(currentJson);
 
-      // HISTÓRICO 5 ANOS
+      // HISTÓRICO
       const updatedHistory: CoinHistory = {};
 
       for (const moeda of moedas) {
         const historyRes = await fetch(
-          `https://economia.awesomeapi.com.br/json/daily/${moeda.key}/1825`
+          `https://economia.awesomeapi.com.br/json/daily/${moeda.key}/365`
         );
 
         const historyJson = await historyRes.json();
 
-        updatedHistory[moeda.apiKey] = historyJson
-          .reverse()
-          .map((item: any) => ({
+        updatedHistory[moeda.apiKey] =
+          historyJson.reverse().map((item: any) => ({
             time: new Date(
               Number(item.timestamp) * 1000
             ).toLocaleDateString("pt-BR", {
@@ -106,7 +117,10 @@ export default function CotacoesPage() {
 
       setHistory(updatedHistory);
     } catch (error) {
-      console.error("Erro ao buscar cotações:", error);
+      console.error(
+        "Erro ao buscar cotações:",
+        error
+      );
     }
   }
 
@@ -122,43 +136,85 @@ export default function CotacoesPage() {
 
   if (!data) {
     return (
-      <div className="min-h-screen bg-[#030712] flex items-center justify-center text-white">
-        <div className="animate-pulse text-lg">
-          Carregando cotações...
+      <div className="flex min-h-screen items-center justify-center bg-[#020617]">
+        <div className="flex items-center gap-3 rounded-2xl border border-white/10 bg-white/5 px-6 py-4 text-white backdrop-blur-xl">
+          <Activity className="h-5 w-5 animate-pulse text-emerald-400" />
+
+          <span className="text-sm text-zinc-300">
+            Carregando mercado financeiro...
+          </span>
         </div>
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-[#030712] text-white p-6">
-      {/* HEADER */}
-      <div className="mb-10">
-        <p className="text-blue-400 text-sm uppercase tracking-[0.25em]">
-          Mercado Financeiro
-        </p>
+    <div className="min-h-screen bg-transparent text-white">
+      {/* BACKGROUND */}
+      <div className="pointer-events-none fixed inset-0 overflow-hidden">
+        <div className="absolute left-[-120px] top-[-120px] h-[320px] w-[320px] rounded-full bg-emerald-500/10 blur-[120px]" />
 
-        <h1 className="text-5xl font-black mt-3 tracking-tight">
-          Cotações em Tempo Real
-        </h1>
-
-        <p className="text-gray-400 mt-3 text-sm">
-          Histórico dos últimos 5 anos
-        </p>
+        <div className="absolute bottom-[-160px] right-[-120px] h-[320px] w-[320px] rounded-full bg-blue-500/10 blur-[120px]" />
       </div>
 
-      {/* CARDS */}
-      <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
-        {moedas.map((moeda) => (
-          <Card
-            key={moeda.apiKey}
-            title={moeda.name}
-            symbol={moeda.symbol}
-            bid={Number(data[moeda.apiKey]?.bid)}
-            variation={Number(data[moeda.apiKey]?.pctChange || 0)}
-            history={history[moeda.apiKey] || []}
-          />
-        ))}
+      <div className="relative z-10 p-6 lg:p-10">
+        {/* HEADER */}
+        <div className="mb-10 flex flex-col gap-5 lg:flex-row lg:items-end lg:justify-between">
+          <div>
+            <div className="mb-4 inline-flex items-center gap-2 rounded-full border border-emerald-500/20 bg-emerald-500/10 px-4 py-2 text-xs font-semibold uppercase tracking-[0.25em] text-emerald-400">
+              <Activity className="h-4 w-4" />
+              Mercado Financeiro
+            </div>
+
+            <h1 className="text-4xl font-black tracking-tight text-white md:text-6xl">
+              Cotações em
+              <span className="bg-linear-to-r from-emerald-400 to-cyan-400 bg-clip-text text-transparent">
+                {" "}
+                Tempo Real
+              </span>
+            </h1>
+
+            <p className="mt-4 max-w-2xl text-sm leading-relaxed text-zinc-400 md:text-base">
+              Visualize moedas e criptomoedas com
+              atualização automática, tendência de
+              valorização e histórico dinâmico.
+            </p>
+          </div>
+
+          <div className="flex items-center gap-3 rounded-2xl border border-white/10 bg-white/0.03 px-5 py-4 backdrop-blur-xl">
+            <div className="h-3 w-3 animate-pulse rounded-full bg-emerald-400" />
+
+            <div>
+              <p className="text-xs uppercase tracking-[0.2em] text-zinc-500">
+                Status
+              </p>
+
+              <p className="text-sm font-semibold text-white">
+                Atualizando em tempo real
+              </p>
+            </div>
+          </div>
+        </div>
+
+        {/* GRID */}
+        <div className="grid grid-cols-1 gap-7 md:grid-cols-2 2xl:grid-cols-3">
+          {moedas.map((moeda) => (
+            <Card
+              key={moeda.apiKey}
+              title={moeda.name}
+              symbol={moeda.symbol}
+              bid={Number(
+                data[moeda.apiKey]?.bid
+              )}
+              variation={Number(
+                data[moeda.apiKey]?.pctChange || 0
+              )}
+              history={
+                history[moeda.apiKey] || []
+              }
+            />
+          ))}
+        </div>
       </div>
     </div>
   );
@@ -186,52 +242,61 @@ function Card({
 
   const isPositive = variation >= 0;
 
-  const lastValue = history[history.length - 1]?.value || 0;
-
-  const firstValue = history[0]?.value || 0;
-
-  const trendUp = lastValue >= firstValue;
+  const chartColor = isPositive
+    ? "#22c55e"
+    : "#ef4444";
 
   return (
-    <div className="group relative overflow-hidden rounded-[32px] border border-white/10 bg-[#0b1220] p-6 shadow-[0_0_60px_rgba(0,0,0,0.45)] transition-all duration-500 hover:-translate-y-1 hover:border-white/20">
-      {/* GLOW */}
+    <div
+      className={`group relative overflow-hidden rounded-[34px] border bg-linear-to-b p-1 transition-all duration-500 hover:-translate-y-2 ${
+        isPositive
+          ? "border-emerald-500/20 from-emerald-500/20 to-transparent hover:shadow-[0_0_80px_rgba(34,197,94,0.18)]"
+          : "border-red-500/20 from-red-500/20 to-transparent hover:shadow-[0_0_80px_rgba(239,68,68,0.18)]"
+      }`}
+    >
+      {/* glow */}
       <div
-        className={`absolute -top-10 -right-10 h-40 w-40 rounded-full blur-3xl opacity-20 transition-all duration-500 ${
-          trendUp ? "bg-emerald-500" : "bg-red-500"
+        className={`absolute inset-0 opacity-20 blur-3xl transition-all duration-700 ${
+          isPositive
+            ? "bg-emerald-500/20"
+            : "bg-red-500/20"
         }`}
       />
 
-      {/* OVERLAY */}
-      <div className="absolute inset-0 bg-linear-to-b to-transparent" />
-
-      <div className="relative z-10">
+      <div className="relative h-full rounded-[34px] bg-[#081121]/95 p-7 backdrop-blur-2xl">
         {/* TOP */}
         <div className="flex items-start justify-between">
           <div>
-            <p className="text-gray-400 text-sm font-medium">
+            <p className="text-sm font-medium text-zinc-400">
               {title}
             </p>
 
-            <h2 className="mt-3 text-4xl font-black tracking-tight">
+            <h2 className="mt-4 text-4xl font-black tracking-tight text-white">
               {formatBRL(bid)}
             </h2>
           </div>
 
           <div
-            className={`rounded-full px-3 py-1 text-xs font-bold backdrop-blur-xl ${
+            className={`flex items-center gap-2 rounded-full border px-4 py-2 text-sm font-bold ${
               isPositive
-                ? "bg-emerald-500/15 text-emerald-400 border border-emerald-500/20"
-                : "bg-red-500/15 text-red-400 border border-red-500/20"
+                ? "border-emerald-500/20 bg-emerald-500/10 text-emerald-400"
+                : "border-red-500/20 bg-red-500/10 text-red-400"
             }`}
           >
+            {isPositive ? (
+              <TrendingUp className="h-4 w-4" />
+            ) : (
+              <TrendingDown className="h-4 w-4" />
+            )}
+
             {isPositive ? "+" : ""}
             {variation.toFixed(2)}%
           </div>
         </div>
 
         {/* INFO */}
-        <div className="mt-5 flex items-center gap-2 text-sm text-gray-400">
-          <span>
+        <div className="mt-6 flex items-center gap-2 text-sm">
+          <span className="text-zinc-500">
             1 {symbol} =
           </span>
 
@@ -240,10 +305,21 @@ function Card({
           </span>
         </div>
 
-        {/* GRÁFICO */}
-        <div className="mt-8 h-56 w-full">
-          <ResponsiveContainer width="100%" height="100%">
-            <AreaChart data={history}>
+        {/* CHART */}
+        <div className="mt-8 h-[260px] w-full min-w-0">
+          <ResponsiveContainer
+            width="100%"
+            height="100%"
+          >
+            <AreaChart
+              data={history}
+              margin={{
+                top: 10,
+                right: 0,
+                left: 0,
+                bottom: 0,
+              }}
+            >
               <defs>
                 <linearGradient
                   id={`gradient-${title}`}
@@ -254,20 +330,20 @@ function Card({
                 >
                   <stop
                     offset="0%"
-                    stopColor={trendUp ? "#22c55e" : "#ef4444"}
-                    stopOpacity={0.5}
+                    stopColor={chartColor}
+                    stopOpacity={0.45}
                   />
 
                   <stop
                     offset="100%"
-                    stopColor={trendUp ? "#22c55e" : "#ef4444"}
+                    stopColor={chartColor}
                     stopOpacity={0}
                   />
                 </linearGradient>
               </defs>
 
               <CartesianGrid
-                stroke="rgba(255,255,255,0.04)"
+                stroke="rgba(255,255,255,0.05)"
                 vertical={false}
                 strokeDasharray="4 4"
               />
@@ -275,11 +351,11 @@ function Card({
               <XAxis
                 dataKey="time"
                 tick={{
-                  fill: "#6b7280",
+                  fill: "#71717a",
                   fontSize: 11,
                 }}
-                axisLine={false}
                 tickLine={false}
+                axisLine={false}
                 minTickGap={35}
               />
 
@@ -290,20 +366,24 @@ function Card({
 
               <Tooltip
                 cursor={{
-                  stroke: trendUp ? "#22c55e" : "#ef4444",
-                  strokeWidth: 1,
+                  stroke: chartColor,
+                  strokeWidth: 1.5,
                   strokeDasharray: "5 5",
                 }}
                 contentStyle={{
-                  background: "rgba(17,24,39,0.95)",
-                  border: "1px solid rgba(255,255,255,0.08)",
+                  background:
+                    "rgba(8,17,33,0.96)",
+                  border:
+                    "1px solid rgba(255,255,255,0.08)",
                   borderRadius: "18px",
                   color: "#fff",
-                  backdropFilter: "blur(12px)",
+                  backdropFilter: "blur(18px)",
+                  boxShadow:
+                    "0 10px 40px rgba(0,0,0,0.45)",
                 }}
                 labelStyle={{
-                  color: "#9ca3af",
-                  marginBottom: 8,
+                  color: "#a1a1aa",
+                  marginBottom: 10,
                 }}
                 formatter={(value) => [
                   formatBRL(Number(value)),
@@ -314,20 +394,13 @@ function Card({
               <Area
                 type="monotone"
                 dataKey="value"
-                stroke={trendUp ? "#22c55e" : "#ef4444"}
+                stroke={chartColor}
                 strokeWidth={3}
                 fill={`url(#gradient-${title})`}
-              />
-
-              <Line
-                type="monotone"
-                dataKey="value"
-                stroke={trendUp ? "#22c55e" : "#ef4444"}
-                strokeWidth={3}
                 dot={false}
                 activeDot={{
                   r: 7,
-                  fill: trendUp ? "#22c55e" : "#ef4444",
+                  fill: chartColor,
                   stroke: "#fff",
                   strokeWidth: 2,
                 }}
