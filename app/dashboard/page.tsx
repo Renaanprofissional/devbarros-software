@@ -54,6 +54,11 @@ export default function DashboardPage() {
       desc: "Crie e imprima códigos de barras personalizados",
       href: "/dashboard/barcode",
     },
+    {
+      title: "Gerador de nota fiscal",
+      desc: "Gere notas ficais apenas com a chave de acesso",
+      href: "/dashboard/danfe",
+    },
   ];
 
   return (

@@ -15,6 +15,7 @@ export default function Sidebar() {
     { href: "/dashboard/cnpj", label: "Consultar CNPJ", icon: Layers },
     { href: "/dashboard/cotacoes", label: "Cotações", icon: Layers },
     { href: "/dashboard/barcode", label: "Codigo de barras", icon: Layers },
+    { href: "/dashboard/danfe", label: "Gerador de nota fiscal", icon: Layers },
     // { href: "/dashboard/settings", label: "Configurações", icon: Settings },
   ];
 
