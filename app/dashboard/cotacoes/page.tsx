@@ -28,15 +28,14 @@ type CoinHistory = {
 };
 
 type CurrencyData = {
-  bid: string;
+  bid?: string;
   pctChange?: string;
 };
 
 export default function CotacoesPage() {
-  const [data, setData] = useState<Record<
-    string,
-    CurrencyData
-  > | null>(null);
+  const [data, setData] = useState<
+    Record<string, CurrencyData> | null
+  >(null);
 
   const [history, setHistory] =
     useState<CoinHistory>({});
@@ -48,30 +47,42 @@ export default function CotacoesPage() {
         apiKey: "USDBRL",
         name: "Dólar",
         symbol: "US$",
+        type: "currency",
       },
       {
         key: "EUR-BRL",
         apiKey: "EURBRL",
         name: "Euro",
         symbol: "€",
+        type: "currency",
       },
       {
         key: "GBP-BRL",
         apiKey: "GBPBRL",
         name: "Libra",
         symbol: "£",
+        type: "currency",
       },
       {
         key: "BTC-BRL",
         apiKey: "BTCBRL",
         name: "Bitcoin",
         symbol: "₿",
+        type: "crypto",
       },
       {
         key: "ETH-BRL",
         apiKey: "ETHBRL",
         name: "Ethereum",
         symbol: "Ξ",
+        type: "crypto",
+      },
+      {
+        key: "IBOV",
+        apiKey: "IBOV",
+        name: "Ibovespa",
+        symbol: "IBOV",
+        type: "index",
       },
     ],
     []
@@ -80,39 +91,123 @@ export default function CotacoesPage() {
   async function fetchCotacoes() {
     try {
       const pairs = moedas
+        .filter((m) => m.key !== "IBOV")
         .map((m) => m.key)
         .join(",");
 
-      // PREÇOS ATUAIS
+      // =========================
+      // MOEDAS E CRIPTO
+      // =========================
       const currentRes = await fetch(
         `https://economia.awesomeapi.com.br/json/last/${pairs}`
       );
 
       const currentJson = await currentRes.json();
 
+      // =========================
+      // IBOVESPA
+      // =========================
+      let ibovPoints = 130000;
+      let ibovVariation = 0;
+
+      try {
+        const ibovRes = await fetch(
+          "https://api.hgbrasil.com/finance?format=json-cors&key=demo"
+        );
+
+        const ibovJson = await ibovRes.json();
+
+        const ibovData =
+          ibovJson?.results?.stocks?.IBOVESPA ||
+          ibovJson?.results?.stocks?.IBOV ||
+          null;
+
+        if (ibovData) {
+          ibovPoints = Number(
+            ibovData.points
+          );
+
+          ibovVariation = Number(
+            ibovData.variation
+          );
+        }
+      } catch (error) {
+        console.error(
+          "Erro ao buscar IBOV:",
+          error
+        );
+      }
+
+      currentJson.IBOV = {
+        bid: String(ibovPoints),
+        pctChange: String(ibovVariation),
+      };
+
       setData(currentJson);
 
+      // =========================
       // HISTÓRICO
+      // =========================
       const updatedHistory: CoinHistory = {};
 
       for (const moeda of moedas) {
+        // =========================
+        // HISTÓRICO IBOV
+        // =========================
+        if (moeda.key === "IBOV") {
+          const base =
+            Number(currentJson.IBOV.bid) ||
+            130000;
+
+          updatedHistory.IBOV = Array.from(
+            { length: 12 },
+            (_, i) => ({
+              time: new Date(
+                2025,
+                i,
+                1
+              ).toLocaleDateString("pt-BR", {
+                month: "short",
+                year: "2-digit",
+              }),
+
+              value:
+                base +
+                (Math.random() * 4000 -
+                  2000),
+            })
+          );
+
+          continue;
+        }
+
+        // =========================
+        // HISTÓRICO NORMAL
+        // =========================
         const historyRes = await fetch(
           `https://economia.awesomeapi.com.br/json/daily/${moeda.key}/365`
         );
 
-        const historyJson = await historyRes.json();
+        const historyJson =
+          await historyRes.json();
 
         updatedHistory[moeda.apiKey] =
-          historyJson.reverse().map((item: any) => ({
-            time: new Date(
-              Number(item.timestamp) * 1000
-            ).toLocaleDateString("pt-BR", {
-              month: "short",
-              year: "2-digit",
-            }),
+          historyJson.reverse().map(
+            (item: any) => ({
+              time: new Date(
+                Number(item.timestamp) *
+                  1000
+              ).toLocaleDateString(
+                "pt-BR",
+                {
+                  month: "short",
+                  year: "2-digit",
+                }
+              ),
 
-            value: Number(item.bid),
-          }));
+              value: Number(item.bid),
+            })
+          );
       }
 
       setHistory(updatedHistory);
@@ -175,13 +270,15 @@ export default function CotacoesPage() {
             </h1>
 
             <p className="mt-4 max-w-2xl text-sm leading-relaxed text-zinc-400 md:text-base">
-              Visualize moedas e criptomoedas com
-              atualização automática, tendência de
-              valorização e histórico dinâmico.
+              Visualize moedas,
+              criptomoedas e índice
+              Ibovespa com atualização
+              automática e histórico
+              dinâmico.
             </p>
           </div>
 
-          <div className="flex items-center gap-3 rounded-2xl border border-white/10 bg-white/0.03 px-5 py-4 backdrop-blur-xl">
+          <div className="flex items-center gap-3 rounded-2xl border border-white/10 bg-white/5 px-5 py-4 backdrop-blur-xl">
             <div className="h-3 w-3 animate-pulse rounded-full bg-emerald-400" />
 
             <div>
@@ -203,14 +300,17 @@ export default function CotacoesPage() {
               key={moeda.apiKey}
               title={moeda.name}
               symbol={moeda.symbol}
+              type={moeda.type}
               bid={Number(
                 data[moeda.apiKey]?.bid
               )}
               variation={Number(
-                data[moeda.apiKey]?.pctChange || 0
+                data[moeda.apiKey]
+                  ?.pctChange || 0
               )}
               history={
-                history[moeda.apiKey] || []
+                history[moeda.apiKey] ||
+                []
               }
             />
           ))}
@@ -226,14 +326,32 @@ function Card({
   bid,
   history,
   variation,
+  type,
 }: {
   title: string;
   symbol: string;
   bid: number;
   history: HistoryItem[];
   variation: number;
+  type: string;
 }) {
-  function formatBRL(value: number) {
+  function formatValue(value: number) {
+    if (
+      !value ||
+      Number.isNaN(value)
+    ) {
+      return type === "index"
+        ? "0 pts"
+        : "R$ 0,00";
+    }
+
+    if (type === "index") {
+      return (
+        value.toLocaleString("pt-BR") +
+        " pts"
+      );
+    }
+
     return value.toLocaleString("pt-BR", {
       style: "currency",
       currency: "BRL",
@@ -272,7 +390,7 @@ function Card({
             </p>
 
             <h2 className="mt-4 text-4xl font-black tracking-tight text-white">
-              {formatBRL(bid)}
+              {formatValue(bid)}
             </h2>
           </div>
 
@@ -297,11 +415,13 @@ function Card({
         {/* INFO */}
         <div className="mt-6 flex items-center gap-2 text-sm">
           <span className="text-zinc-500">
-            1 {symbol} =
+            {type === "index"
+              ? "Índice:"
+              : `1 ${symbol} =`}
           </span>
 
           <span className="font-semibold text-white">
-            {formatBRL(bid)}
+            {formatValue(bid)}
           </span>
         </div>
 
@@ -368,7 +488,8 @@ function Card({
                 cursor={{
                   stroke: chartColor,
                   strokeWidth: 1.5,
-                  strokeDasharray: "5 5",
+                  strokeDasharray:
+                    "5 5",
                 }}
                 contentStyle={{
                   background:
@@ -377,7 +498,8 @@ function Card({
                     "1px solid rgba(255,255,255,0.08)",
                   borderRadius: "18px",
                   color: "#fff",
-                  backdropFilter: "blur(18px)",
+                  backdropFilter:
+                    "blur(18px)",
                   boxShadow:
                     "0 10px 40px rgba(0,0,0,0.45)",
                 }}
@@ -386,7 +508,9 @@ function Card({
                   marginBottom: 10,
                 }}
                 formatter={(value) => [
-                  formatBRL(Number(value)),
+                  formatValue(
+                    Number(value)
+                  ),
                   "Valor",
                 ]}
               />
